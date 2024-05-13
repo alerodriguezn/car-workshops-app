@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String
+  password   String
+  vehicles   Vehicle[]
+  appointments Appointment[]
+}
+
+model Mechanic {
+  id         Int      @id @default(autoincrement())
+  name       String
+  workshop   Workshop @relation(fields: [workshopId], references: [id])
+  workshopId Int
+}
+
+model Vehicle {
+  id         Int      @id @default(autoincrement())
+  make       String
+  model      String
+  year       Int
+  owner   Client @relation(fields: [ownerId], references: [id])
+  ownerId      Int
+  appointments Appointment[]
+
+}
+
+model Workshop {
+  id         Int        @id @default(autoincrement())
+  name       String
+  location   String
+  speciality String
+  owner      String
+  rating     Int
+  mechanics  Mechanic[]
+  appointments Appointment[]
+
+}
+
+model Appointment{
+  id         Int        @id @default(autoincrement())
+  date       DateTime?
+  //Relacion Vehiculo
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  vehicleId Int
+  //Relacion Cliente
+  client Client @relation(fields: [clientId], references: [id])
+  clientId Int
+  //Relacion Taller
+  workshop Workshop @relation(fields: [workshopId], references: [id])
+  workshopId Int
+  status     String
+  appointmentDetail AppointmentDetail?
+
+
+  // timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+
+}
+
+model AppointmentDetail {
+  id           Int      @id @default(autoincrement())
+  appointment  Appointment @relation(fields: [appointmentId], references: [id])
+  appointmentId Int @unique // Relacion 1 a 1, es necesario ponerle @unique
+  status       String @default("Pending")
+  description  String
+
+  // timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
