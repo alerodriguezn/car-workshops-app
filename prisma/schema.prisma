@@ -27,6 +27,7 @@ model Mechanic {
   name       String
   workshop   Workshop @relation(fields: [workshopId], references: [id])
   workshopId Int
+  repair Repair[]
 }
 
 model Vehicle {
@@ -37,6 +38,7 @@ model Vehicle {
   owner   Client @relation(fields: [ownerId], references: [id])
   ownerId      Int
   appointments Appointment[]
+  repairs Repairs[]
 
 }
 
@@ -66,6 +68,8 @@ model Appointment{
   workshopId Int
   status     String
   appointmentDetail AppointmentDetail?
+  repairs Repairs[]
+  invoice Invoice?
 
 
   // timestamps
@@ -81,8 +85,56 @@ model AppointmentDetail {
   appointmentId Int @unique // Relacion 1 a 1, es necesario ponerle @unique
   status       String @default("Pending")
   description  String
+  appointmentmedia Appointmentmedia[]
 
   // timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Appointmentmedia{
+  id Int @default(autoincrement())
+  appointmentDetail  AppointmentDetail @relation(fields: [appointmentDetailId], references: [id])
+  appointmentDetailId Int
+  mediaUrl String
+}
+
+model Repairs{
+  id Int @default(autoincrement())
+  appointment  Appointment @relation(fields: [appointmentId], references: [id])
+  appointmentId Int 
+  manager  Mechanic @relation(fields: [managerId], references: [id])
+  managerId Int
+  diagnosis String
+  repairStatus String @default("Pending")
+  ApprovedByCliente Boolean
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
+  vehicleId Int
+  repairsDetail RepairDetails?
+  
+}
+
+model RepairDetails{
+  id Int @default(autoincrement())
+  repair Repairs @relation(fields: [repairId], references: [id])
+  repairId Int @unique 
+  description String
+  cost Int
+  invoiceDetail InvoiceDetail?
+
+}
+
+model InvoiceDetail{
+  id Int @default(autoincrement())
+  invoice Invoice @relation(fields: [invoiceId], references: [id])
+  invoiceId Int @unique
+  repairDetail RepairDetails @relation(fields: [repairDetailId], references: [id])
+  repairDetailId Int
+}
+model Invoice {
+  id Int @default(autoincrement())
+  appintment Appointment @relation(fields: [idAppointment], references: [id])
+  idAppointment Int
+  total Int
+  status String @default("Pending")
 }
