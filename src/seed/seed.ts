@@ -5,7 +5,7 @@ export const initialData = {
       location: "Santa Clara",
       speciality: "Hybrid Vehicle Specialists",
       owner: "Owner 1",
-      imageUrl: "/imgs/image_0.png",
+      imageUrl: "/imgs/workshops/image_0.png",
       rating: 4,
     },
     {
@@ -13,7 +13,7 @@ export const initialData = {
       location: "Ciudad Quesada",
       speciality: "Brake Repair",
       owner: "Owner 2",
-      imageUrl: "/imgs/image_1.png",
+      imageUrl: "/imgs/workshops/image_1.png",
       rating: 3,
     },
     {
@@ -21,7 +21,7 @@ export const initialData = {
         location: "La Fortuna",
         speciality: "Factory Trained Technicians",
         owner: "Owner 3",
-        imageUrl: "/imgs/image_2.png",
+        imageUrl: "/imgs/workshops/image_2.png",
         rating: 2,
     },
     {
@@ -29,7 +29,7 @@ export const initialData = {
         location: "Escazu",
         speciality: "Tire and Wheel Alignment",
         owner: "Owner 4",
-        imageUrl: "/imgs/image_3.png",
+        imageUrl: "/imgs/workshops/image_3.png",
         rating: 5,
     },
     {
@@ -37,7 +37,7 @@ export const initialData = {
         location: "Florencia",
         speciality: "Oil Change and Lube Service",
         owner: "Owner 5",
-        imageUrl: "/imgs/image_4.png",
+        imageUrl: "/imgs/workshops/image_4.png",
         rating: 1,
     },
     {
@@ -45,7 +45,7 @@ export const initialData = {
         location: "Puntarenas",
         speciality: "Engine Repair and Diagnostics",
         owner: "Owner 6",
-        imageUrl: "/imgs/image_5.png",
+        imageUrl: "/imgs/workshops/image_5.png",
         rating: 4,
     },
     {
@@ -53,7 +53,7 @@ export const initialData = {
         location: "Guanacaste",
         speciality: "Transmission Repair",
         owner: "Owner 7",
-        imageUrl: "/imgs/image_6.png",
+        imageUrl: "/imgs/workshops/image_6.png",
         rating: 3,
     },
     {
@@ -61,7 +61,7 @@ export const initialData = {
         location: "Limon",
         speciality: "Electrical Repair and Diagnostics",
         owner: "Owner 8",
-        imageUrl: "/imgs/image_7.png",
+        imageUrl: "/imgs/workshops/image_7.png",
         rating: 2,
     },
     {
@@ -69,7 +69,7 @@ export const initialData = {
         location: "Grecia",
         speciality: "Suspension Repair and Diagnostics",
         owner: "Owner 9",
-        imageUrl: "/imgs/image_8.png",
+        imageUrl: "/imgs/workshops/image_8.png",
         rating: 5,
     },
    {
@@ -77,7 +77,7 @@ export const initialData = {
         location: "Esparza",
         speciality: "Fuel System Repair and Diagnostics",
         owner: "Owner 10",
-        imageUrl: "/imgs/image_9.png",
+        imageUrl: "/imgs/workshops/image_9.png",
         rating: 1,
    },
    {
@@ -85,7 +85,7 @@ export const initialData = {
         location: "Monteverde",
         speciality: "Factory Trained Technicians",
         owner: "Owner 11",
-        imageUrl: "/imgs/image_10.png",
+        imageUrl: "/imgs/workshops/image_10.png",
         rating: 4,
    },
    {
@@ -93,7 +93,7 @@ export const initialData = {
         location: "Florencia",
         speciality: "Cooling system repair and diagnostics",
         owner: "Owner 12",
-        imageUrl: "/imgs/image_11.png",
+        imageUrl: "/imgs/workshops/image_11.png",
         rating: 3,
    },
    {
@@ -101,7 +101,7 @@ export const initialData = {
         location: "Jaco",
         speciality: "General repair and diagnostics",
         owner: "Owner 13",
-        imageUrl: "/imgs/image_12.png",
+        imageUrl: "/imgs/workshops/image_12.png",
         rating: 2,
    },
    {
@@ -109,7 +109,7 @@ export const initialData = {
         location: "Heredia",
         speciality: "Brake repair and diagnostics",
         owner: "Owner 14",
-        imageUrl: "/imgs/image_13.png",
+        imageUrl: "/imgs/workshops/image_13.png",
         rating: 5,
    },
    {
@@ -117,15 +117,15 @@ export const initialData = {
         location: "San Jose",
         speciality: "Transmission repair and diagnostics",
         owner: "Owner 15",
-        imageUrl: "/imgs/image_14.png",
+        imageUrl: "/imgs/workshops/image_14.png",
         rating: 1,
    },
    {
         name: "Osvaldo's Workshop",
         location: "Montes de Oca",
-        speciality: "Radiator repair and diagnostics",
+        speciality: "R",
         owner: "Owner 16",
-        imageUrl: "/imgs/image_15.png",
+        imageUrl: "/imgs/workshops/image_15.png",
         rating: 4,
    }
 
