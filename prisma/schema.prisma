@@ -14,127 +14,123 @@ datasource db {
 }
 
 model Client {
-  id         Int      @id @default(autoincrement())
-  name       String
-  email      String
-  password   String
-  vehicles   Vehicle[]
+  id           Int           @id @default(autoincrement())
+  name         String
+  email        String
+  password     String
+  vehicles     Vehicle[]
   appointments Appointment[]
 }
 
 model Mechanic {
-  id         Int      @id @default(autoincrement())
+  id         Int       @id @default(autoincrement())
   name       String
-  workshop   Workshop @relation(fields: [workshopId], references: [id])
+  workshop   Workshop  @relation(fields: [workshopId], references: [id])
   workshopId Int
-  repair Repair[]
+  repair     Repairs[]
 }
 
 model Vehicle {
-  id         Int      @id @default(autoincrement())
-  make       String
-  model      String
-  year       Int
-  owner   Client @relation(fields: [ownerId], references: [id])
+  id           Int           @id @default(autoincrement())
+  make         String
+  model        String
+  year         Int
+  owner        Client        @relation(fields: [ownerId], references: [id])
   ownerId      Int
   appointments Appointment[]
-  repairs Repairs[]
-
+  repairs      Repairs[]
 }
 
 model Workshop {
-  id         Int        @id @default(autoincrement())
-  name       String
-  location   String
-  speciality String
-  owner      String
-  rating     Int
-  mechanics  Mechanic[]
+  id           Int           @id @default(autoincrement())
+  name         String
+  location     String
+  speciality   String
+  owner        String
+  rating       Int
+  imageUrl  String @default("https://placehold.co/400?text=No+Image&font=roboto")
+  mechanics    Mechanic[]
   appointments Appointment[]
-
 }
 
-model Appointment{
-  id         Int        @id @default(autoincrement())
-  date       DateTime?
+model Appointment {
+  id                Int                @id @default(autoincrement())
+  date              DateTime?
   //Relacion Vehiculo
-  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
-  vehicleId Int
+  vehicle           Vehicle            @relation(fields: [vehicleId], references: [id])
+  vehicleId         Int
   //Relacion Cliente
-  client Client @relation(fields: [clientId], references: [id])
-  clientId Int
+  client            Client             @relation(fields: [clientId], references: [id])
+  clientId          Int
   //Relacion Taller
-  workshop Workshop @relation(fields: [workshopId], references: [id])
-  workshopId Int
-  status     String
+  workshop          Workshop           @relation(fields: [workshopId], references: [id])
+  workshopId        Int
+  status            String
   appointmentDetail AppointmentDetail?
-  repairs Repairs[]
-  invoice Invoice?
-
+  repairs           Repairs[]
+  invoice           Invoice?
 
   // timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-
 }
 
 model AppointmentDetail {
-  id           Int      @id @default(autoincrement())
-  appointment  Appointment @relation(fields: [appointmentId], references: [id])
-  appointmentId Int @unique // Relacion 1 a 1, es necesario ponerle @unique
-  status       String @default("Pending")
-  description  String
-  appointmentmedia Appointmentmedia[]
+  id               Int                @id @default(autoincrement())
+  appointment      Appointment        @relation(fields: [appointmentId], references: [id])
+  appointmentId    Int                @unique // Relacion 1 a 1, es necesario ponerle @unique
+  status           String             @default("Pending")
+  description      String
+  appointmentmedia AppointmentMedia[]
 
   // timestamps
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Appointmentmedia{
-  id Int @default(autoincrement())
-  appointmentDetail  AppointmentDetail @relation(fields: [appointmentDetailId], references: [id])
+model AppointmentMedia {
+  id                  Int               @id @default(autoincrement())
+  appointmentDetail   AppointmentDetail @relation(fields: [appointmentDetailId], references: [id])
   appointmentDetailId Int
-  mediaUrl String
+  mediaUrl            String
 }
 
-model Repairs{
-  id Int @default(autoincrement())
-  appointment  Appointment @relation(fields: [appointmentId], references: [id])
-  appointmentId Int 
-  manager  Mechanic @relation(fields: [managerId], references: [id])
-  managerId Int
-  diagnosis String
-  repairStatus String @default("Pending")
+model Repairs {
+  id                Int            @id @default(autoincrement())
+  appointment       Appointment    @relation(fields: [appointmentId], references: [id])
+  appointmentId     Int
+  manager           Mechanic       @relation(fields: [managerId], references: [id])
+  managerId         Int
+  diagnosis         String
+  repairStatus      String         @default("Pending")
   ApprovedByCliente Boolean
-  vehicle Vehicle @relation(fields: [vehicleId], references: [id])
-  vehicleId Int
-  repairsDetail RepairDetails?
-  
+  vehicle           Vehicle        @relation(fields: [vehicleId], references: [id])
+  vehicleId         Int
+  repairsDetail     RepairDetails?
 }
 
-model RepairDetails{
-  id Int @default(autoincrement())
-  repair Repairs @relation(fields: [repairId], references: [id])
-  repairId Int @unique 
-  description String
-  cost Int
+model RepairDetails {
+  id            Int            @id @default(autoincrement())
+  repair        Repairs        @relation(fields: [repairId], references: [id])
+  repairId      Int            @unique
+  description   String
+  cost          Int
   invoiceDetail InvoiceDetail?
-
 }
 
-model InvoiceDetail{
-  id Int @default(autoincrement())
-  invoice Invoice @relation(fields: [invoiceId], references: [id])
-  invoiceId Int @unique
-  repairDetail RepairDetails @relation(fields: [repairDetailId], references: [id])
-  repairDetailId Int
+model InvoiceDetail {
+  id             Int           @id @default(autoincrement())
+  invoice        Invoice       @relation(fields: [invoiceId], references: [id])
+  invoiceId      Int        
+  repairDetail   RepairDetails @relation(fields: [repairDetailId], references: [id])
+  repairDetailId Int           @unique
 }
+
 model Invoice {
-  id Int @default(autoincrement())
-  appintment Appointment @relation(fields: [idAppointment], references: [id])
-  idAppointment Int
-  total Int
-  status String @default("Pending")
+  id            Int             @id @default(autoincrement())
+  appintment    Appointment     @relation(fields: [idAppointment], references: [id])
+  idAppointment Int             @unique
+  total         Int
+  status        String          @default("Pending")
+  InvoiceDetail InvoiceDetail[]
 }
