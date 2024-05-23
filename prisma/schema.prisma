@@ -22,6 +22,20 @@ model Client {
   appointments Appointment[]
 }
 
+model User {
+  id            String    @id @default(uuid())
+  name          String
+  email         String    @unique
+  emailVerified DateTime?
+  password      String
+  image         String?
+
+/// Workshop
+  workshops     Workshop[]
+
+
+
+}
 model Mechanic {
   id         Int       @id @default(autoincrement())
   name       String
@@ -46,7 +60,10 @@ model Workshop {
   name         String
   location     String
   speciality   String
-  owner        String
+
+  owner       User          @relation(fields: [ownerId], references: [id])
+  ownerId     String
+
   rating       Int
   imageUrl  String @default("https://placehold.co/400?text=No+Image&font=roboto")
   mechanics    Mechanic[]
@@ -80,7 +97,7 @@ model AppointmentDetail {
   appointment      Appointment        @relation(fields: [appointmentId], references: [id])
   appointmentId    Int                @unique // Relacion 1 a 1, es necesario ponerle @unique
   status           String             @default("Pending")
-  description      String
+  descption      String
   appointmentmedia AppointmentMedia[]
 
   // timestamps

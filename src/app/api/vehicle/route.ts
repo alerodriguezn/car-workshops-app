@@ -1,15 +1,20 @@
 import prisma from "@/lib/prisma";
 import { Vehicle } from "@prisma/client";
 
+
 // Add new Vehicle
 
 export async function POST(request: Request) {
+
   const body = await request.json();
 
   const { make, model, year, ownerId }: Vehicle = body;
 
+  
+
 
   try {
+
     const newVehicle = await prisma.vehicle.create({
         data: {
             make,
@@ -18,8 +23,6 @@ export async function POST(request: Request) {
             ownerId,
         },
     });
-
-    console.log(newVehicle);
 
     if (!newVehicle) {
       return Response.json({ message: "Vehicle not created" });
@@ -30,3 +33,7 @@ export async function POST(request: Request) {
     return Response.json({ message: "Error creating vehicle" });
   }
 }
+
+
+
+

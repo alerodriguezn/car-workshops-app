@@ -5,7 +5,7 @@ import { Workshop } from "@prisma/client";
 export async function POST(request: Request) {
   const body = await request.json();
 
-  const { name, location, speciality, owner, rating }: Workshop = body;
+  const { name, location, speciality, ownerId, rating }: Workshop = body;
 
   try {
     const newWorkshop = await prisma.workshop.create({
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
         name,
         location,
         speciality,
-        owner,
+        ownerId,
         rating,
       },
     });
@@ -37,8 +37,6 @@ export async function GET(request: Request) {
   const search = searchParams.get("search");
   const speciality = searchParams.get("speciality");
   const location = searchParams.get("location");
-
-  console.log({ rating, search, speciality, location });
 
   const workshops = await prisma.workshop.findMany({
     where: {

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 
 export function middleware() {
     // retrieve the current response
+
     const res = NextResponse.next()
 
     // add the CORS headers to the response
@@ -14,10 +15,17 @@ export function middleware() {
         'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
     )
 
+
     return res
 }
 
+// export the middleware
+
 // specify the path regex to apply the middleware to
 export const config = {
-    matcher: '/api/:path*',
+    matcher: [
+        '/api/:path*',
+    ],
+    
+    
 }
