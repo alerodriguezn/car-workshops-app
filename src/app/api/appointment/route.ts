@@ -85,3 +85,16 @@ export async function POST(request: NextRequest) {
     return Response.json({ message: "Error creating appointment" });
   }
 }
+
+
+// Get All appointment by clientId
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+
+  const clientId = searchParams.get("clientId");
+
+  //Obtener todas la citas por id de cliente
+
+  return Response.json({  });
+}

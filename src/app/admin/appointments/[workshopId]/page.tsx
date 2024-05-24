@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic'
+export const revalidate = 60;
+
 import {
   Accordion,
   AccordionContent,
@@ -9,6 +12,7 @@ import Image from "next/image";
 import { Vehicle } from "@prisma/client";
 import Link from "next/link";
 import { AppointmentDrawer } from './ui/AppointmentDrawer';
+import { Button } from "@/components/ui/button";
 
 interface Props {
   params: {
@@ -30,6 +34,19 @@ export default async function AppointmentPage({ params }: Props) {
   };
 
   const { appointments } = await getAppointments();
+
+  if (!appointments.length) {
+    return (
+      <div className="flex flex-col justify-center items-center">
+        <h1 className="font-light underline text-xl">
+          No appointments found for this workshop
+        </h1>
+        <Link href="/admin" className="btn-primary mt-4">
+          Go Back
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center w-1/4">
@@ -57,7 +74,8 @@ export default async function AppointmentPage({ params }: Props) {
                 </div>
 
                 <div>
-                 <AppointmentDrawer appointmentId={appointment.id}/>
+                 <AppointmentDrawer appointmentId={appointment.id} appointmentMedia={appointment.appointmentDetail.appointmentmedia[0].mediaUrl}/>
+                 <Link className="text-sky-600 underline mx-6" href={`/admin/appointments/manage/${appointment.id}`}>Manage</Link>
                 </div>
               </div>
             </AccordionContent>

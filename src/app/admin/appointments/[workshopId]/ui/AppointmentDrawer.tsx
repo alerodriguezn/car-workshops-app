@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -11,19 +11,22 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-
-import React from "react";
+import Image from "next/image";
 import { AppointmentPicker } from "./AppointmentPicker";
 
 interface Props {
   appointmentId: number;
+  appointmentMedia: string;
 }
 
-export const AppointmentDrawer = ({ appointmentId }: Props) => {
+export const AppointmentDrawer = ({
+  appointmentId,
+  appointmentMedia,
+}: Props) => {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button color="primary">Manage</Button>
+        <Button color="primary">View</Button>
       </DrawerTrigger>
 
       <DrawerContent className="flex justify-center items-center">
@@ -35,7 +38,17 @@ export const AppointmentDrawer = ({ appointmentId }: Props) => {
             This action cannot be undone.
           </DrawerDescription>
         </DrawerHeader>
-        <AppointmentPicker appointmentId={appointmentId} />
+        <div className="flex justify-center gap-10">
+          <AppointmentPicker appointmentId={appointmentId} />
+          <Image
+            src={appointmentMedia}
+            alt="Image Problem"
+            height={200}
+            width={200}
+            className="rounded-lg"
+          />
+        </div>
+
         <DrawerFooter>
           <DrawerClose asChild>
             <Button variant="outline">Close</Button>

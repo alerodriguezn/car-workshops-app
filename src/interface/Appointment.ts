@@ -21,3 +21,5 @@ export interface Appointmentmedia {
     appointmentDetailId: number;
     mediaUrl:            string;
 }
+
+

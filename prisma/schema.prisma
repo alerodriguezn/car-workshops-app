@@ -82,7 +82,7 @@ model Appointment {
   //Relacion Taller
   workshop          Workshop           @relation(fields: [workshopId], references: [id])
   workshopId        Int
-  status            String
+  status           String             @default("Pending")
   appointmentDetail AppointmentDetail?
   repairs           Repairs[]
   invoice           Invoice?
@@ -96,8 +96,7 @@ model AppointmentDetail {
   id               Int                @id @default(autoincrement())
   appointment      Appointment        @relation(fields: [appointmentId], references: [id])
   appointmentId    Int                @unique // Relacion 1 a 1, es necesario ponerle @unique
-  status           String             @default("Pending")
-  descption      String
+  description      String
   appointmentmedia AppointmentMedia[]
 
   // timestamps
