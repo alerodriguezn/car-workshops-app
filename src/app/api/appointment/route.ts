@@ -89,12 +89,39 @@ export async function POST(request: NextRequest) {
 
 // Get All appointment by clientId
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
+export async function GET(request: Request, 
+  { params }: { params: { clientId: number } }
+) {
+ 
 
-  const clientId = searchParams.get("clientId");
+  const {clientId} =params;
 
   //Obtener todas la citas por id de cliente
+  const appointments = await prisma.appointment.findMany({
+    where: {
+      clientId: Number(clientId),
+    },
+    select: {
+      id: true,
+      status: true,
+      clientId: true,
+      vehicleId: true,
+      workshopId: true,
+      appointmentDetail: {
+        select: {
+          description: true,
+          appointmentmedia: true,
+        },
+      
+      },
+    },
+    
 
-  return Response.json({  });
+  });
+
+  if (!appointments) {
+    return Response.json({ message: "Appointment not found" });
+  }
+
+  return Response.json({ appointments });
 }
