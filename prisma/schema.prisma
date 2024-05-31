@@ -148,5 +148,5 @@ model Invoice {
   idAppointment Int             @unique
   total         Int
   status        String          @default("Pending")
-  InvoiceDetail InvoiceDetail[]
+  invoiceDetail InvoiceDetail[]
 }
