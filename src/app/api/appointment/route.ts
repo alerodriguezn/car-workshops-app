@@ -4,10 +4,7 @@ import { put } from "@vercel/blob";
 import formidable from "formidable";
 import { NextRequest } from "next/server";
 
-
-
 export async function POST(request: NextRequest) {
-
   const data = await request.formData();
 
   const make = data.get("make") as string;
@@ -20,8 +17,7 @@ export async function POST(request: NextRequest) {
 
   try {
     const prismaTx = await prisma.$transaction(async (tx) => {
-
-      console.log(make, model, year, clientId, workshopId, description)
+      console.log(make, model, year, clientId, workshopId, description);
       //new vehicle
       const newVehicle = await tx.vehicle.create({
         data: {
@@ -31,7 +27,6 @@ export async function POST(request: NextRequest) {
           ownerId: Number(clientId),
         },
       });
-
 
       // new appointment
       const newAppointment = await tx.appointment.create({
@@ -69,32 +64,27 @@ export async function POST(request: NextRequest) {
         },
       });
       return newAppointment;
-      
-
     });
 
     //execute transaction
     await prismaTx;
 
-
     return Response.json({
       message: "Appointment created successfully",
-      
     });
   } catch (error) {
     return Response.json({ message: "Error creating appointment" });
   }
 }
 
-
 // Get All appointment by clientId
 
-export async function GET(request: Request, 
-  { params }: { params: { clientId: number } }
+export async function GET(
+  request: Request
 ) {
- 
+  const { searchParams } = new URL(request.url);
 
-  const {clientId} =params;
+  const clientId = searchParams.get("clientId");
 
   //Obtener todas la citas por id de cliente
   const appointments = await prisma.appointment.findMany({
@@ -104,6 +94,7 @@ export async function GET(request: Request,
     select: {
       id: true,
       status: true,
+       date: true,
       clientId: true,
       vehicleId: true,
       workshopId: true,
@@ -112,11 +103,11 @@ export async function GET(request: Request,
           description: true,
           appointmentmedia: true,
         },
-      
       },
     },
-    
-
+    orderBy: {
+      date: "asc",
+    },
   });
 
   if (!appointments) {
