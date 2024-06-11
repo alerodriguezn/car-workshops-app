@@ -119,6 +119,7 @@ model Repairs {
   managerId         Int
   diagnosis         String
   repairStatus      String         @default("Pending")
+  initialStateImage String @default("https://placehold.co/500x500")
   ApprovedByCliente Boolean
   vehicle           Vehicle        @relation(fields: [vehicleId], references: [id])
   vehicleId         Int

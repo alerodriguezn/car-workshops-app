@@ -21,16 +21,12 @@ export async function POST(request: Request) {
       },
     });
 
-    return {
+    return Response.json({
       ok: true,
       user: user,
       message: "User Created",
-    };
+    });
   } catch (error) {
     console.log(error);
-    return {
-      ok: false,
-      message: "We cannot create the user",
-    };
   }
 }

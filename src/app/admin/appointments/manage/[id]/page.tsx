@@ -1,7 +1,7 @@
 import { getMechanicsByAppointmentId } from "@/action/workshops/get-mechanics-by-appointmentId";
 import { AppointmentDetailsResponse } from "@/interface/AppointmentDetails";
 import Link from "next/link";
-import { createNewRepair } from '@/action/repair/create-new-repair';
+import { createNewRepair } from "@/action/repair/create-new-repair";
 import { RepairsTable } from "./ui/RepairsTable";
 import { getAllRepairsByAppointment } from "@/action/repair/get-all-repairs-by-appointment";
 
@@ -27,7 +27,7 @@ export default async function ManageAppointmentPage({ params }: Props) {
   const { appointmentDetails } = await getAppointmentById();
   const mechanics = await getMechanicsByAppointmentId(Number(id));
 
-  const newRepair = createNewRepair.bind(null)
+  const newRepair = createNewRepair.bind(null);
 
   const allRepairs = await getAllRepairsByAppointment(Number(id));
 
@@ -49,28 +49,49 @@ export default async function ManageAppointmentPage({ params }: Props) {
       <h2 className="text-center text-2xl font-bold">
         Appointment Number #{appointmentDetails.id}{" "}
       </h2>
-      <form action={newRepair} className="flex flex-col gap-2 items-center">
-        <div className="flex w-[400px] mt-4">
+      <form action={newRepair} className="flex gap-2 justify-center items-center mt-4 ">
+
+        <div className="flex w-[400px] justify-center items-center">
           <label htmlFor="managerId" className="font-bold mr-2">
             Mechanic
           </label>
-          <input name="managerId" type="text" className="p-1 border-2 border-slate-600 rounded"/>
+          <input
+            name="managerId"
+            type="text"
+            className="p-1 border-2 border-slate-600 rounded"
+          />
         </div>
-        <div className="flex w-[400px]">
+        <div className="flex w-[400px] justify-center items-center">
           <label htmlFor="diagnosis" className="font-bold mr-2">
             Diagnosis
           </label>
-          <textarea name="diagnosis" id="diagnosis" className="p-1 border-2 border-slate-600 rounded"></textarea>
+          <textarea
+            name="diagnosis"
+            id="diagnosis"
+            className="p-1 border-2 border-slate-600 rounded"
+          ></textarea>
+        </div>
+
+        <div>
+          <label htmlFor="managerId" className="font-bold mr-2">
+            Report Initial State (Image):
+          </label>
+          <input type="file" id="image" name="image" required />
         </div>
         <div className=" invisible ">
-          <input type="hidden" name="appointmentId" value={id}  />
-          <input type="hidden"name="vehicleId" value={appointmentDetails.appointment.vehicleId}  />
-
+          <input type="hidden" name="appointmentId" value={id} />
+          <input
+            type="hidden"
+            name="vehicleId"
+            value={appointmentDetails.appointment.vehicleId}
+          />
         </div>
-        <button type="submit" className="btn-primary">Add New Repair</button>
+        <button type="submit" className="btn-primary w-40">
+          Add Repair
+        </button>
       </form>
 
-      <RepairsTable repairs={allRepairs}/>
+      <RepairsTable repairs={allRepairs} />
     </div>
   );
 }

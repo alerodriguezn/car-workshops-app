@@ -1,5 +1,6 @@
 "use server";
 
+import { put } from '@vercel/blob';
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
@@ -10,9 +11,13 @@ export const createNewRepair = async (formData: FormData) => {
     mechanicId: formData.get("managerId"),
     diagnosis: formData.get("diagnosis"),
     vehicleId: formData.get("vehicleId"),
+    imageFile: formData.get("image") as File,
   };
 
-  console.log(rawData);
+  const blob = await put(rawData.imageFile.name, rawData.imageFile, {
+    access: 'public',
+  });
+
 
   const vehicleId = parseInt(rawData.vehicleId as string);
   const mechanicId = parseInt(rawData.mechanicId as string);
@@ -27,6 +32,7 @@ export const createNewRepair = async (formData: FormData) => {
         diagnosis,
         vehicleId,
         ApprovedByCliente: false,
+        initialStateImage: blob.url,
       },
      
     });

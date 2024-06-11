@@ -10,15 +10,14 @@ export async function POST(request: Request) {
 
     try {
         await signIn("credentials", { email, password });
-        return {
-          ok: true,
-        };
+
+        return Response.json({
+            ok: true,
+            message: "User Logged In",
+        });
       } catch (error) {
         console.log(error);
-        return {
-          ok:false,
-          message: 'Error when login'
-        }
+      
       }
  
 }

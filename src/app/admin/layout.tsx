@@ -16,7 +16,7 @@ export default async function AdminLayout({
   }
   
   return (
-    <main className="min-h-screen flex justify-center">
+    <main className="min-h-screen flex justify-center ">
       { children }
       <Toaster/>
     </main>
