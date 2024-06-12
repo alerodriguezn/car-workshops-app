@@ -1,4 +1,3 @@
-import { Repairs } from "@prisma/client";
 import prisma from "@/lib/prisma";
 
 
@@ -6,25 +5,51 @@ import prisma from "@/lib/prisma";
 
 export async function POST(request: Request) {
 
-    const body = await request.json();
-  
-    //desectructurar el body, no recibe repairStatus ni ID
-    const { appointmentId, managerId, diagnosis, ApprovedByCliente, vehicleId }: Repairs = body;
-    try {
-      const newRepairs =await prisma.repairs.create({
-        data: {
-          appointmentId, 
-          managerId,
-          diagnosis,
-          ApprovedByCliente, 
-          vehicleId,
-        },
-      });
-      if (!newRepairs) {
-        return Response.json({ message: "Repair not created" });
-      }
+    const data = await request.formData();
 
-      return Response.json({newRepairs})
+    const appointmentId = data.get("appointmentId") as string;
+    const managerId = data.get("managerId") as string;
+    const diagnosis = data.get("diagnosis") as string;
+    const vehicleId = data.get("vehicleId") as string;
+    const description = data.get("description") as string;
+    const cost = data.get("cost") as string;
+
+
+  
+   
+    try {
+      const prismaTx = await prisma.$transaction(async (tx) => {
+
+        const newRepairs =await tx.repairs.create({
+          data: {
+            appointmentId: Number(appointmentId), 
+            managerId: Number(managerId),
+            diagnosis,
+            repairStatus: "Pending",
+            ApprovedByCliente: false, 
+            vehicleId: Number(vehicleId),
+
+          },
+        });
+
+        const newRepairDetails = await tx.repairDetails.create({
+          data: {
+            repairId: newRepairs.id , 
+            description,
+            cost: Number(cost),
+          },
+        });
+
+        
+      
+        return newRepairs;
+      });
+
+      //execute transaction
+      await prismaTx;
+
+      return Response.json({message: "Repair created successfully",
+      });
 
     }catch{
       return Response.json({ message: "Error creating repair" });
