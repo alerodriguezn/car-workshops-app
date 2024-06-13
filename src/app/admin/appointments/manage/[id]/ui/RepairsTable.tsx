@@ -35,7 +35,10 @@ export function RepairsTable({ repairs }: Props) {
           <TableHead className="w-[180px]">Appointment #</TableHead>
           <TableHead>Diagnosis</TableHead>
           <TableHead>Status</TableHead>
+          <TableHead>Is Required</TableHead>
           <TableHead>Management</TableHead>
+
+
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -44,6 +47,8 @@ export function RepairsTable({ repairs }: Props) {
             <TableCell className="font-medium">{repair.appointmentId}</TableCell>
             <TableCell>{repair.diagnosis}</TableCell>
             <TableCell>{repair.repairStatus}</TableCell>
+            <TableCell>{repair.isRequired ? "Required" : "Not Required"}</TableCell>
+
             <TableCell>
               <Button
                 color="primary"

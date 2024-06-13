@@ -17,8 +17,8 @@ export async function POST(request: NextRequest) {
 
   try {
     const prismaTx = await prisma.$transaction(async (tx) => {
-      console.log(make, model, year, clientId, workshopId, description);
-      //new vehicle
+
+  
       const newVehicle = await tx.vehicle.create({
         data: {
           make,
@@ -72,6 +72,7 @@ export async function POST(request: NextRequest) {
     return Response.json({
       message: "Appointment created successfully",
     });
+    
   } catch (error) {
     return Response.json({ message: "Error creating appointment" });
   }
