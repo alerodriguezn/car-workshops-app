@@ -1,5 +1,7 @@
 "use server";
+
 import prisma from "@/lib/prisma";
+import { revalidatePath } from "next/cache";
 
 export const proposeDate = async (id: number, date: Date) => {
   try {
@@ -16,6 +18,8 @@ export const proposeDate = async (id: number, date: Date) => {
     if (!updatedAppointment) {
       throw new Error("Appointment not found");
     }
+
+    revalidatePath(`/admin.appointments/${id}`)
 
 
     return updatedAppointment;

@@ -4,6 +4,9 @@ import prisma from "@/lib/prisma";
 
 export const getWorkshopByOwner = async (ownerId: string) => {
   try {
+
+    console.log("ownerId", ownerId);
+
     const workshops = await prisma.workshop.findMany({
       where: {
         ownerId: ownerId,

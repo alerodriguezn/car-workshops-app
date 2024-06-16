@@ -12,6 +12,10 @@ export const createNewRepair = async (formData: FormData) => {
     diagnosis: formData.get("diagnosis"),
     vehicleId: formData.get("vehicleId"),
     imageFile: formData.get("image") as File,
+    cost: formData.get("cost"),
+    description: formData.get("description"),
+    isRequired: formData.get("isRequired"),
+
   };
 
   const blob = await put(rawData.imageFile.name, rawData.imageFile, {
@@ -23,6 +27,10 @@ export const createNewRepair = async (formData: FormData) => {
   const mechanicId = parseInt(rawData.mechanicId as string);
   const appointmentId = parseInt(rawData.appointmentId as string);
   const diagnosis = rawData.diagnosis as string;
+  const cost = parseInt(rawData.cost as string);
+  const description = rawData.description as string;
+
+
 
   try {
     const newRepair = await prisma.repairs.create({
@@ -33,9 +41,18 @@ export const createNewRepair = async (formData: FormData) => {
         vehicleId,
         ApprovedByCliente: false,
         initialStateImage: blob.url,
+        isRequired: rawData.isRequired === "true" ? true : false,
       },
      
     });
+
+    await prisma.repairDetails.create({
+      data: {
+        repairId: newRepair.id,
+        description: description,
+        cost: cost,
+      }
+    })
 
     if (!newRepair) {
       throw new Error("Error creating new repair");

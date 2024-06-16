@@ -6,6 +6,27 @@ import { z } from "zod";
 
  
 export const { auth, handlers, signIn, signOut } = NextAuth({
+
+  callbacks: {
+
+    jwt( {token, user} ){
+
+      if(user){
+        token.data = user
+      }
+
+      return token
+      
+    },
+    session( { session, token, user } ){
+
+      session.user = token.data as any;
+      return session
+
+    },
+
+
+  },
   providers: [
     Credentials({
      
@@ -22,14 +43,13 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   
           const user = await prisma.user.findUnique({ where: { email: email.toLowerCase() } });
   
-          console.log(user)
   
           if(!user) return null
   
           if(!bcryptjs.compareSync( password, user.password )) return null
   
           const { password: _, ...rest } = user;
-  
+
           return rest
         }
     }),

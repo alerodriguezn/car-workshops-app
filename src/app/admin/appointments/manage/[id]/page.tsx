@@ -31,7 +31,7 @@ export default async function ManageAppointmentPage({ params }: Props) {
 
   const allRepairs = await getAllRepairsByAppointment(Number(id));
 
-  if (appointmentDetails.appointment.status !== "Approved") {
+  if (appointmentDetails.appointment.status === "Pending") {
     return (
       <div className="flex flex-col justify-center items-center">
         <h1 className="font-light underline text-xl">
@@ -49,21 +49,50 @@ export default async function ManageAppointmentPage({ params }: Props) {
       <h2 className="text-center text-2xl font-bold">
         Appointment Number #{appointmentDetails.id}{" "}
       </h2>
-      <form action={newRepair} className="flex gap-2 justify-center items-center mt-4 ">
-
-        <div className="flex w-[400px] justify-center items-center">
+      <form action={newRepair} className="grid grid-cols-2 gap-4 mt-4 border-2 border-slate-300 p-2 ">
+        <div className="flex w-[400px] items-center">
           <label htmlFor="managerId" className="font-bold mr-2">
-            Mechanic
+            Mechanic:
+          </label>
+          <select name="managerId" className="border-2 border-slate-600 rounded-lg">
+            {mechanics.map((option) => (
+              <option key={option.id} value={option.id}>
+                {option.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="flex w-[400px] items-center">
+          <label htmlFor="cost" className="font-bold mr-2">
+            Cost:
           </label>
           <input
-            name="managerId"
-            type="text"
+            name="cost"
+            type="number"
             className="p-1 border-2 border-slate-600 rounded"
           />
         </div>
-        <div className="flex w-[400px] justify-center items-center">
+
+        <div className="flex w-[400px]">
+          <label htmlFor="managerId" className="font-bold mr-2">
+            Report Initial State (Image):
+          </label>
+          <input type="file" id="image" name="image" required />
+        </div>
+
+        <div className=" invisible hidden ">
+          <input type="hidden" name="appointmentId" value={id} />
+          <input
+            type="hidden"
+            name="vehicleId"
+            value={appointmentDetails.appointment.vehicleId}
+          />
+        </div>
+
+        <div className="flex w-[400px] items-center">
           <label htmlFor="diagnosis" className="font-bold mr-2">
-            Diagnosis
+            Diagnosis:
           </label>
           <textarea
             name="diagnosis"
@@ -72,21 +101,39 @@ export default async function ManageAppointmentPage({ params }: Props) {
           ></textarea>
         </div>
 
-        <div>
-          <label htmlFor="managerId" className="font-bold mr-2">
-            Report Initial State (Image):
+        <div className="flex w-[400px] items-center">
+          <label htmlFor="description" className="font-bold mr-2">
+            Description
           </label>
-          <input type="file" id="image" name="image" required />
+          <textarea
+            name="description"
+            id="description"
+            className="p-1 border-2 border-slate-600 rounded"
+          ></textarea>
         </div>
-        <div className=" invisible ">
-          <input type="hidden" name="appointmentId" value={id} />
+
+        <div className="flex w-[400px] items-center">
+          <label htmlFor="isRequired" className="font-bold mr-2">
+            Is Required
+          </label>
           <input
-            type="hidden"
-            name="vehicleId"
-            value={appointmentDetails.appointment.vehicleId}
+            name="isRequired"
+            type="radio"
+            value="true"
+            className="p-1 border-2 border-slate-600 rounded mr-6"
+          />
+          <label htmlFor="isRequired" className="font-bold mr-2">
+            Not Required
+          </label>
+          <input
+            name="isRequired"
+            type="radio"
+            value="false"
+            className="p-1 border-2 border-slate-600 rounded"
           />
         </div>
-        <button type="submit" className="btn-primary w-40">
+
+        <button type="submit" className="btn-primary w-40 mt-4">
           Add Repair
         </button>
       </form>

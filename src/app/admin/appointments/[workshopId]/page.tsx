@@ -26,8 +26,7 @@ export default async function AppointmentPage({ params }: Props) {
   const getAppointments = async () => {
     "use server";
     const res = await fetch(
-      `http://localhost:3000/api/appointment/${workshopId}`
-    );
+      `http://localhost:3000/api/appointment/${workshopId}`, { cache: 'no-store' });
     const data: AppointmentsList = await res.json();
     console.log(data);
     return data;

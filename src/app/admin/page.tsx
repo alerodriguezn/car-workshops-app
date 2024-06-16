@@ -10,6 +10,9 @@ export default async function AdminPage() {
     redirect("/auth/login");
   }
 
+  console.log("session", session.user);
+
+
   const { workshops , ok } = await getWorkshopByOwner(session.user.id);
 
   if (!ok || !workshops) {
