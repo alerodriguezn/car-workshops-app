@@ -9,6 +9,7 @@ export interface Appointment {
     vehicleId:         number;
     workshopId:        number;
     appointmentDetail: AppointmentDetail;
+    createdAt:         Date;
 }
 
 export interface AppointmentDetail {

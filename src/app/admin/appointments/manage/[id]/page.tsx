@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { getMechanicsByAppointmentId } from "@/action/workshops/get-mechanics-by-appointmentId";
 import { AppointmentDetailsResponse } from "@/interface/AppointmentDetails";
 import Link from "next/link";
@@ -17,7 +19,8 @@ export default async function ManageAppointmentPage({ params }: Props) {
   const getAppointmentById = async () => {
     "use server";
     const res = await fetch(
-      `http://localhost:3000/api/appointmentDetails/${id}`
+      `http://localhost:3000/api/appointmentDetails/${id}`,
+      { cache: "no-store" }
     );
     const data: AppointmentDetailsResponse = await res.json();
 
@@ -31,7 +34,7 @@ export default async function ManageAppointmentPage({ params }: Props) {
 
   const allRepairs = await getAllRepairsByAppointment(Number(id));
 
-  if (appointmentDetails.appointment.status === "Pending") {
+  if (appointmentDetails.appointment.status === "Created") {
     return (
       <div className="flex flex-col justify-center items-center">
         <h1 className="font-light underline text-xl">

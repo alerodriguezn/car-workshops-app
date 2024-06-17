@@ -18,6 +18,7 @@ export async function GET(
       clientId: true,
       vehicleId: true,
       workshopId: true,
+      createdAt: true,
       appointmentDetail: {
         select: {
           description: true,
