@@ -5,9 +5,6 @@ import { NextRequest } from "next/server";
 export async function POST(request: NextRequest) {
   const data = await request.formData();
 
-  console.log("xd");
-
-
   const make = data.get("make") as string;
   const model = data.get("model") as string;
   const year = data.get("year") as string;
