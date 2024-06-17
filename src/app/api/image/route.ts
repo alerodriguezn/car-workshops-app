@@ -5,6 +5,7 @@ import { put } from "@vercel/blob";
 export async function POST(request: Request) {
   const body = await request.formData();
 
+
   const media = body.get("media") as File;
 
   if (!media) {

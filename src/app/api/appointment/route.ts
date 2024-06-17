@@ -3,13 +3,8 @@ import { put } from "@vercel/blob";
 import formidable from "formidable";
 import { NextRequest } from "next/server";
 
-
-
-
 export async function POST(request: NextRequest) {
   const data = await request.formData();
-
-
 
   const make = data.get("make") as string;
   const model = data.get("model") as string;
@@ -19,13 +14,9 @@ export async function POST(request: NextRequest) {
   const description = data.get("description") as string;
   const media = data.get("media") as File;
 
-
-
   try {
-    const prismaTx = await prisma.$transaction(async (tx) => {
-
-  
-      const newVehicle = await tx.vehicle.create({
+    // const prismaTx = await prisma.$transaction(async (tx) => {
+      const newVehicle = await prisma.vehicle.create({
         data: {
           make,
           model,
@@ -35,7 +26,7 @@ export async function POST(request: NextRequest) {
       });
 
       // new appointment
-      const newAppointment = await tx.appointment.create({
+      const newAppointment = await prisma.appointment.create({
         data: {
           status: "Pending",
           workshopId: Number(workshopId),
@@ -45,7 +36,7 @@ export async function POST(request: NextRequest) {
       });
 
       // new appointment detail
-      const newAppointmentDetail = await tx.appointmentDetail.create({
+      const newAppointmentDetail = await prisma.appointmentDetail.create({
         data: {
           appointmentId: newAppointment.id,
           description,
@@ -63,31 +54,32 @@ export async function POST(request: NextRequest) {
       const imageUrl = await uploadImage();
 
       // new appointment media
-      await tx.appointmentMedia.create({
+      await prisma.appointmentMedia.create({
         data: {
           appointmentDetailId: newAppointmentDetail.id,
           mediaUrl: imageUrl.url,
         },
       });
       return newAppointment;
-    });
+    // });
 
-    //execute transaction
-    await prismaTx;
+    // //execute transaction
+    // await prismaTx;
 
     return Response.json({
       message: "Appointment created successfully",
     });
-    
   } catch (error) {
-    return Response.json({ message: "Error creating appointment", error, data });
+    return Response.json({
+      message: "Error creating appointment",
+      error,
+      data,
+    });
   }
 }
 // Get All appointment by clientId
 
-export async function GET(
-  request: Request
-) {
+export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
   const clientId = searchParams.get("clientId");
@@ -100,7 +92,7 @@ export async function GET(
     select: {
       id: true,
       status: true,
-       date: true,
+      date: true,
       clientId: true,
       vehicleId: true,
       workshopId: true,
