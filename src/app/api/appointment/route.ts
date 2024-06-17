@@ -13,6 +13,16 @@ export async function POST(request: NextRequest) {
   const description = data.get("description") as string;
   const media = data.get("media") as File;
 
+  return Response.json({ 
+    make, 
+    model, 
+    year, 
+    clientId, 
+    workshopId, 
+    description, 
+    media
+   });
+
   try {
     const prismaTx = await prisma.$transaction(async (tx) => {
 
