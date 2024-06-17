@@ -60,7 +60,8 @@ export async function POST(request: NextRequest) {
           mediaUrl: imageUrl.url,
         },
       });
-      return newAppointment;
+
+      return Response.json({newAppointment});
     // });
 
     // //execute transaction
