@@ -4,9 +4,11 @@ import { put } from "@vercel/blob";
 import formidable from "formidable";
 import { NextRequest } from "next/server";
 
-export async function POST(request: NextRequest) {
-  const data = await request.json()
+export async function POST(request: Request) {
 
+  let data = await request.formData();
+
+  console.log(data)
 
   const make = data.get("make") as string;
   const model = data.get("model") as string;
