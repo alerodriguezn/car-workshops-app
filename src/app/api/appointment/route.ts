@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
     });
     
   } catch (error) {
-    return Response.json({ message: "Error creating appointment" });
+    return Response.json({ message: "Error creating appointment", error, data });
   }
 }
 // Get All appointment by clientId
