@@ -1,12 +1,9 @@
 import prisma from "@/lib/prisma";
-import { Appointment } from "@prisma/client";
 import { put } from "@vercel/blob";
-import formidable from "formidable";
 import { NextRequest } from "next/server";
 
 export async function POST(request: NextRequest) {
-
-  let data = await request.formData();
+  const data = await request.formData();
 
   const make = data.get("make") as string;
   const model = data.get("model") as string;
@@ -15,7 +12,6 @@ export async function POST(request: NextRequest) {
   const workshopId = data.get("workshopId") as string;
   const description = data.get("description") as string;
   const media = data.get("media") as File;
-
 
   try {
     const prismaTx = await prisma.$transaction(async (tx) => {
@@ -79,7 +75,6 @@ export async function POST(request: NextRequest) {
     return Response.json({ message: "Error creating appointment" });
   }
 }
-
 // Get All appointment by clientId
 
 export async function GET(
