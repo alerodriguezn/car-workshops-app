@@ -8,9 +8,6 @@ export async function POST(request: NextRequest) {
 
   let data = await request.formData();
 
-  console.log(data);
-
-
   const make = data.get("make") as string;
   const model = data.get("model") as string;
   const year = data.get("year") as string;
@@ -18,6 +15,17 @@ export async function POST(request: NextRequest) {
   const workshopId = data.get("workshopId") as string;
   const description = data.get("description") as string;
   const media = data.get("media") as File;
+
+  return Response.json({
+    make,
+    model,
+    year,
+    clientId,
+    workshopId,
+    description,
+    media,
+  });
+
 
   try {
     const prismaTx = await prisma.$transaction(async (tx) => {
