@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
   const clientId = data.get("clientId") as string;
   const workshopId = data.get("workshopId") as string;
   const description = data.get("description") as string;
-  const media = data.get("media") as File;
+  const media = data.get("media") as any;
 
   return Response.json({ 
     make, 
