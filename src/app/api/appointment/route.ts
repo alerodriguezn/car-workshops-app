@@ -1,9 +1,15 @@
 import prisma from "@/lib/prisma";
 import { put } from "@vercel/blob";
+import formidable from "formidable";
 import { NextRequest } from "next/server";
+
+
+
 
 export async function POST(request: NextRequest) {
   const data = await request.formData();
+
+
 
   const make = data.get("make") as string;
   const model = data.get("model") as string;
@@ -12,6 +18,7 @@ export async function POST(request: NextRequest) {
   const workshopId = data.get("workshopId") as string;
   const description = data.get("description") as string;
   const media = data.get("media") as File;
+
 
 
   try {
