@@ -19,7 +19,7 @@ export default async function ManageAppointmentPage({ params }: Props) {
   const getAppointmentById = async () => {
     "use server";
     const res = await fetch(
-      `http://localhost:3000/api/appointmentDetails/${id}`,
+      `https://car-workshops-app.vercel.app/api/appointmentDetails/${id}`,
       { cache: "no-store" }
     );
     const data: AppointmentDetailsResponse = await res.json();
