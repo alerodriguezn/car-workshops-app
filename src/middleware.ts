@@ -1,32 +1,32 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from 'next/server';
 
-export function middleware() {
-    // retrieve the current response
+export function middleware(req: NextRequest) {
+    const res = NextResponse.next();
 
-    const res = NextResponse.next()
+    // Handle preflight requests
+    if (req.method === 'OPTIONS') {
+        res.headers.append('Access-Control-Allow-Credentials', 'true');
+        res.headers.append('Access-Control-Allow-Origin', '*'); // replace with your actual origin in production
+        res.headers.append('Access-Control-Allow-Methods', 'GET,DELETE,PATCH,POST,PUT');
+        res.headers.append(
+            'Access-Control-Allow-Headers',
+            'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+        );
+        return res;
+    }
 
-    // add the CORS headers to the response
-    res.headers.append('Access-Control-Allow-Credentials', "true")
-    res.headers.append('Access-Control-Allow-Origin', '*') // replace this your actual origin
-    res.headers.append('Access-Control-Allow-Methods', 'GET,DELETE,PATCH,POST,PUT')
-    
+    // Add CORS headers to the response
+    res.headers.append('Access-Control-Allow-Credentials', 'true');
+    res.headers.append('Access-Control-Allow-Origin', '*'); // replace with your actual origin in production
+    res.headers.append('Access-Control-Allow-Methods', 'GET,DELETE,PATCH,POST,PUT');
     res.headers.append(
         'Access-Control-Allow-Headers',
         'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    );
 
-    )
-
-
-    return res
+    return res;
 }
 
-// export the middleware
-
-// specify the path regex to apply the middleware to
 export const config = {
-    matcher: [
-        '/api/:path*',
-    ],
-    
-    
-}
+    matcher: '/api/:path*',
+};
