@@ -15,8 +15,8 @@ export async function POST(request: NextRequest) {
   const media = data.get("media") as File;
 
   try {
-    // const prismaTx = await prisma.$transaction(async (tx) => {
-      const newVehicle = await prisma.vehicle.create({
+    const prismaTx = await prisma.$transaction(async (tx) => {
+      const newVehicle = await tx.vehicle.create({
         data: {
           make,
           model,
@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       });
 
       // new appointment
-      const newAppointment = await prisma.appointment.create({
+      const newAppointment = await tx.appointment.create({
         data: {
           status: "Pending",
           workshopId: Number(workshopId),
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
       });
 
       // new appointment detail
-      const newAppointmentDetail = await prisma.appointmentDetail.create({
+      const newAppointmentDetail = await tx.appointmentDetail.create({
         data: {
           appointmentId: newAppointment.id,
           description,
@@ -54,18 +54,17 @@ export async function POST(request: NextRequest) {
       const imageUrl = await uploadImage();
 
       // new appointment media
-      await prisma.appointmentMedia.create({
+      await tx.appointmentMedia.create({
         data: {
           appointmentDetailId: newAppointmentDetail.id,
           mediaUrl: imageUrl.url,
         },
       });
+      return newAppointment;
+    });
 
-      return Response.json({newAppointment});
-    // });
-
-    // //execute transaction
-    // await prismaTx;
+    //execute transaction
+    await prismaTx;
 
     return Response.json({
       message: "Appointment created successfully",
