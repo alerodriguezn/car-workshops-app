@@ -14,13 +14,7 @@ export async function POST(request: Request) {
   const media = data.get("media");
 
   return Response.json({ 
-    make, 
-    model, 
-    year, 
-    clientId, 
-    workshopId, 
-    description, 
-    media
+    data
    });
 
   // try {
